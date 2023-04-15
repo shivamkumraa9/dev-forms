@@ -16,7 +16,7 @@ export default function Api() {
       <h5 className="fw-bold">Method : GET</h5>
       <p>Get a list of all forms in your account.</p>
       <h6 className="fw-bold">Example Request:</h6>
-      <pre className=" language-markup"><code>curl -H &quot;apikey: efhci...04fj4&quot; &quot;https://devforms.herokuapp.com/api/public/v1/forms&quot;</code></pre>
+      <pre className=" language-markup"><code>curl -H &quot;apikey: efhci...04fj4&quot; &quot;https://devforms.shivamkumraa.com/api/public/v1/forms&quot;</code></pre>
       <h6 className="fw-bold">Example Response:</h6>
       <pre className=" language-markup">
         <code>
@@ -55,7 +55,7 @@ export default function Api() {
         Get all the submissions of a form.
       </p>
       <h6 className="fw-bold">Example Request:</h6>
-      <pre className=" language-markup"><code>curl -H &quot;apikey: efhci...04fj4&quot; &quot;https://devforms.herokuapp.com/api/public/v1/forms/77c42f0f-.../submissions</code></pre>
+      <pre className=" language-markup"><code>curl -H &quot;apikey: efhci...04fj4&quot; &quot;https://devforms.shivamkumraa.com/api/public/v1/forms/77c42f0f-.../submissions</code></pre>
       <h6 className="fw-bold">Example Response:</h6>
       <pre className=" language-markup">
         <code>

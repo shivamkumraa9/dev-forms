@@ -1,7 +1,7 @@
 import CopyToClipboard from '../components/CopyToClipboard';
 
 export default function InstallTab({ formId }) {
-  const url = `https://devforms.herokuapp.com/api/forms/submit/${formId}`;
+  const url = `https://devforms.shivamkumraa.com/api/forms/submit/${formId}`;
   const formTag = `<form method="post" action="${url}"></form>`;
 
   return (
