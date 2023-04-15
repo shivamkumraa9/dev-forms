@@ -11,20 +11,20 @@ export default function PaymentDetails({ profileData, setProfileData }) {
           Current Plan:
           <b>
             &nbsp;
-            {profileData.plan}
+            {profileData.plan.name}
           </b>
           <br />
-          { profileData.plan !== 'free' && (
+          { profileData.plan.name !== 'free' && (
           <span style={{ fontSize: '16px' }}>
-            { profileData.isCancelled ? 'Your subscriotion ends ' : 'Next Payment ' }
+            { profileData.isCancelled ? 'Your subscription ends ' : 'Next Payment ' }
             on :&nbsp;
-            {profileData.nextPaymentDate}
+            {(new Date(profileData.nextPaymentDate)).toLocaleDateString()}
           </span>
           )}
         </h1>
         <div className="mt-1" />
         <Link to="/pricing" className="btn btn-secondary btn-sm">Change Plan</Link>
-        { profileData.plan !== 'free' && <ToogleSubscription profileData={profileData} setProfileData={setProfileData} /> }
+        { profileData.plan.name !== 'free' && <ToogleSubscription profileData={profileData} setProfileData={setProfileData} /> }
         { profileData.paymentHistory.length > 0
           && <PaymentHistory paymentHistory={profileData.paymentHistory} />}
       </div>

@@ -1,29 +1,15 @@
 import { useState } from 'react';
+import http from '../../../utils/http';
 
 export default function Refresh({ formId, setFormSubmissions }) {
   const [text, setText] = useState('Refresh');
   function handleRefresh() {
     setText('Refreshing');
-    setTimeout(() => {
-      setText('Refresh');
-      setFormSubmissions([
-        {
-          id: 1,
-          submitted: '3 April 2023',
-          data: '{"test": "foo", "testss": [1, 2, 3]}',
-        },
-        {
-          id: 2,
-          submitted: '4 April 2023',
-          data: `{"test": "${formId}", "testss": [1, 2, 3]}`,
-        },
-        {
-          id: 3,
-          submitted: '4 April 2023',
-          data: '{"test": "foo", "testss": [1, 2, 3]}',
-        },
-      ]);
-    }, 1500);
+    http.get(`forms/${formId}/submissions`)
+      .then((response) => {
+        setText('Refresh');
+        setFormSubmissions(response.data);
+      });
   }
   return (
     <h6 style={{ cursor: 'pointer' }} onClick={handleRefresh} aria-hidden="true">

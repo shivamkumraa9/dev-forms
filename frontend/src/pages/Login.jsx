@@ -4,6 +4,7 @@ import FormPageLayout from './layouts/FormPageLayout';
 import { handleChangeUtil } from '../utils/form';
 import { useAuthTokenDispatch } from '../utils/authContext';
 import SubmitButton from './components/SubmitButton';
+import http from '../utils/http';
 
 export default function Login() {
   const authTokenDispatch = useAuthTokenDispatch();
@@ -14,10 +15,13 @@ export default function Login() {
   function handleSubmit(event) {
     event.preventDefault();
     setFormState({ status: 'loading', message: '' });
-    setTimeout(() => {
-      setFormState({ status: 'error', message: 'Invalid Username or Password' });
-      authTokenDispatch({ type: 'login', token: '12345' });
-    }, 1500);
+    http.post('auth/login', formData)
+      .then((response) => {
+        authTokenDispatch({ type: 'login', token: response.data.token });
+      })
+      .catch((error) => {
+        setFormState({ status: 'error', message: error.response.data.error });
+      });
   }
 
   return (

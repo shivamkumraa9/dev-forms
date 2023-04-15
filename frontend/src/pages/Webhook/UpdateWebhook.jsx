@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import WebhookForm from './WebhookForm';
 import DeleteButton from '../components/DeleteButton';
 import { SectionLoader } from '../components/Loader';
+import http from '../../utils/http';
 
 export default function UpdateWebhook() {
+  const { id } = useParams();
   const [formState, setFormState] = useState('loading');
   const [webhookDetails, setWebhookDetails] = useState(null);
+  const [formId, setFormId] = useState('');
 
   useEffect(() => {
-    setTimeout(() => {
-      setFormState('');
-      setWebhookDetails({
-        id: 'test',
-        name: 'test',
-        url: 'test',
-        auth_username: '',
-        auth_password: '',
-        enabled: true,
-        headers: [{ itemKey: 0, key: 'test', value: 'test' }],
-        staticKeys: [],
+    http.get(`webhooks/${id}`)
+      .then((response) => {
+        setFormId(response.data.form);
+        delete response.data._id;
+        delete response.data.__v;
+        delete response.data.form;
+        setFormState('');
+        setWebhookDetails(response.data);
+      })
+      .catch(() => {
+        setFormState('notfound');
       });
-    }, 2000);
   }, []);
 
   if (formState === 'loading') {
@@ -30,7 +33,7 @@ export default function UpdateWebhook() {
   if (formState === 'notfound') {
     return (
       <section className="container">
-        <div className="alert alert-danger" role="alert">
+        <div className="alert alert-info" role="alert">
           The Webhook your are looking for does not exists
         </div>
       </section>
@@ -42,8 +45,8 @@ export default function UpdateWebhook() {
       <h1 className="fw-bold">
         Update Webhook
       </h1>
-      <WebhookForm initialData={webhookDetails} submitUrl="https://" />
-      <DeleteButton modalId={webhookDetails.id} submitUrl="test" heading="Delete Form" text="Are you sure that you want to delete this webhook" />
+      <WebhookForm initialData={webhookDetails} submitUrl={`webhooks/update/${id}`} formId={formId} />
+      <DeleteButton redirectUrl={`/form/${formId}`} modalId={id} submitUrl={`webhooks/${id}`} heading="Delete Webhook" text="Are you sure that you want to delete this webhook" />
     </section>
   );
 }

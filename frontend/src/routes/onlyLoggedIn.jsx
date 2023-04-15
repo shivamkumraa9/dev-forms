@@ -33,7 +33,7 @@ export default {
       element: <Logout />,
     },
     {
-      path: 'create-webhook',
+      path: 'create-webhook/:id',
       element: <CreateWebhook />,
     },
     {

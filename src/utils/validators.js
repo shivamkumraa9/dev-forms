@@ -31,13 +31,13 @@ module.exports = {
   addForm: joi.object({
     name: joi.string().required(),
     description: joi.string().required(),
-    successRedirect: joi.string().uri().allow(''),
+    successRedirectUrl: joi.string().uri().allow(''),
   }),
 
   updateForm: joi.object({
     name: joi.string().required(),
     description: joi.string().required(),
-    successRedirect: joi.string().uri().allow(''),
+    successRedirectUrl: joi.string().uri().allow(''),
     allowNewSubmissions: joi.boolean().required(),
     sendEmailNotifications: joi.boolean().required(),
   }),

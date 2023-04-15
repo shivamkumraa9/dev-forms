@@ -1,26 +1,29 @@
 import { useRef } from 'react';
+import http from '../../../utils/http';
 
 export default function SubmissionModel({ submissionData, formSubmissions, setFormSubmissions }) {
   const closeBtn = useRef(null);
+  const data = JSON.stringify(submissionData.data);
 
   function handleDelete(event) {
     const { target } = event;
     target.disabled = true;
     target.textContent = 'Deleting';
-    setTimeout(() => {
-      closeBtn.current.click();
-      setFormSubmissions(formSubmissions.filter((item) => item.id !== submissionData.id));
-    }, 1500);
+    http.delete(`forms/submissions/${submissionData._id}`)
+      .then(() => {
+        closeBtn.current.click();
+        setFormSubmissions(formSubmissions.filter((item) => item._id !== submissionData._id));
+      });
   }
 
   function handleCopy(event) {
     const { target } = event;
     target.textContent = 'Copied';
-    navigator.clipboard.writeText(submissionData.data);
+    navigator.clipboard.writeText(data);
   }
 
   return (
-    <div className="modal fade" id={submissionData.id} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal fade" id={submissionData._id} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -30,7 +33,7 @@ export default function SubmissionModel({ submissionData, formSubmissions, setFo
           <div className="modal-body">
             <div className="form-group">
               <label>Value</label>
-              <textarea className="form-control" rows="3" defaultValue={submissionData.data} />
+              <textarea className="form-control" rows="3" defaultValue={data} />
             </div>
           </div>
           <div className="modal-footer">

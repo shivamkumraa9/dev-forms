@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SettingsCard from './SettingsCard';
 import SubmitButton from '../components/SubmitButton';
+import http from '../../utils/http';
 
 export default function ProfileDetails({ profileData }) {
   const { plan, email, apiKey } = profileData;
@@ -10,10 +11,11 @@ export default function ProfileDetails({ profileData }) {
   function handleSubmit(event) {
     event.preventDefault();
     setFormState({ status: 'loading', message: '' });
-    setTimeout(() => {
-      setNewApiKey('112345678978');
-      setFormState({ status: '' });
-    }, 1500);
+    http.post('profile/refresh-api-key')
+      .then((response) => {
+        setNewApiKey(response.data.apiKey);
+        setFormState({ status: '' });
+      });
   }
 
   return (

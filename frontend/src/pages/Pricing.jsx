@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-/* eslint-disable no-param-reassign */
 import { useNavigate } from 'react-router-dom';
 import { Loader, SectionLoader } from './components/Loader';
 import { useAuthToken } from '../utils/authContext';
+import http from '../utils/http';
 
 export default function Pricing() {
   const token = useAuthToken();
@@ -11,10 +11,11 @@ export default function Pricing() {
 
   useEffect(() => {
     if (token) {
-      setTimeout(() => {
-        setCurrentPlan('free');
-        setIsLoading(false);
-      }, 2000);
+      http.get('profile')
+        .then((response) => {
+          setCurrentPlan(response.data.plan.name);
+          setIsLoading(false);
+        });
     }
   }, []);
 
@@ -113,14 +114,23 @@ function SubscriptionButton(props) {
   const { planName, currentPlan, loaderColor } = props;
   const [isLoading, setIsLoading] = useState(false);
   const isCurrentPlanSame = planName === currentPlan;
+  const userHasSubscribed = currentPlan !== 'free';
 
   function handleClick() {
     if (currentPlan) {
       if (!isCurrentPlanSame) {
         setIsLoading(true);
-        setTimeout(() => {
-          navigate('/register');
-        }, 2000);
+        if (userHasSubscribed) {
+          http.post(`payments/change-plan/${planName}`)
+            .then(() => {
+              setTimeout(() => (navigate('/settings')), 5000);
+            });
+        } else {
+          http.post(`payments/subscribe/${planName}`)
+            .then((response) => {
+              window.location.href = response.data.url;
+            });
+        }
       }
     } else {
       navigate('/login');
@@ -129,9 +139,15 @@ function SubscriptionButton(props) {
   if (isLoading) {
     return <Loader color={loaderColor} />;
   }
+
+  if (userHasSubscribed && planName === 'free') {
+    return (
+      <span />
+    );
+  }
   return (
     <span style={{ cursor: !isCurrentPlanSame ? 'pointer' : '' }} className="btn-buy" aria-hidden="true" onClick={handleClick}>
-      {isCurrentPlanSame ? 'Selected' : 'Buy'}
+      {isCurrentPlanSame ? 'Current Plan' : 'Buy'}
     </span>
   );
 }

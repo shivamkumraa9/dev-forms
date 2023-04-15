@@ -6,7 +6,7 @@ export default function KeyValuePair({ keyValueArray, setKeyValueArray, heading 
   }
 
   function handleAdd() {
-    keyValueArray.push({ itemKey: Date.now(), key: '', value: '' });
+    keyValueArray.push({ _id: Date.now(), key: '', value: '' });
     setKeyValueArray([...keyValueArray]);
   }
 
@@ -20,7 +20,7 @@ export default function KeyValuePair({ keyValueArray, setKeyValueArray, heading 
   }
 
   const elements = keyValueArray.map((item, index) => (
-    <div key={item.itemKey} className="d-flex flex-row gap-3 align-items-center mt-1">
+    <div key={item._id} className="d-flex flex-row gap-3 align-items-center mt-1">
       <input type="text" value={item.key} placeholder="Key" onChange={(event) => handleChange(index, true, event)} className="form-control" />
       <input type="text" value={item.value} onChange={(event) => handleChange(index, false, event)} placeholder="Value" className="form-control" />
       <i

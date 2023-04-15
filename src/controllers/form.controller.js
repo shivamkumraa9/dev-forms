@@ -35,7 +35,7 @@ module.exports = {
       user: req.user._id,
       name: req.body.name,
       description: req.body.description,
-      successRedirect: req.body.successRedirect,
+      successRedirectUrl: req.body.successRedirectUrl,
       sendEmailNotifications: plan.allowEmailNotifications,
     });
     return res.json(form);
@@ -62,7 +62,7 @@ module.exports = {
     await Form.findByIdAndUpdate(req.form._id, {
       name: req.body.name,
       description: req.body.description,
-      successRedirect: req.body.successRedirect,
+      successRedirectUrl: req.body.successRedirectUrl,
       allowNewSubmissions: req.body.allowNewSubmissions,
       sendEmailNotifications: allowEmailNotifications ? req.body.sendEmailNotifications : false,
     });
@@ -101,7 +101,7 @@ module.exports = {
     });
 
     if (plan.allowEmailNotifications && form.sendEmailNotifications) {
-      sendMail(form.user.email, 'New Submission Recieved', JSON.stringify(submission));
+      sendMail(form.user.email, 'New Submission Recieved', JSON.stringify(submission, null, 4));
     }
 
     if (plan.allowWebhookIntegration) {
@@ -109,14 +109,22 @@ module.exports = {
       triggerWebhook(webhooks, submission.data);
     }
 
-    if (form.successRedirectUrl) {
-      return res.redirect(form.successRedirectUrl);
+    if (form.successRedirectUrlUrl) {
+      return res.redirect(form.successRedirectUrlUrl);
     }
     return res.json(submission);
   },
 
   async getFormSubmissions(req, res) {
     return res.json(await Submission.find({ form: req.form._id }));
+  },
+
+  async downloadSubmissions(req, res) {
+    const submissions = await Submission.find({ form: req.form._id }, { data: 1, _id: 0 });
+    const submissionsData = submissions.map((item) => item.data);
+    res.setHeader('Content-type', 'application/octet-stream');
+    res.setHeader('Content-disposition', `attachment;filename=submissions_${req.form._id}.json`);
+    return res.send(JSON.stringify(submissionsData, null, 4));
   },
 
   async deleteForm(req, res) {

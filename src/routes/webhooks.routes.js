@@ -8,8 +8,8 @@ const validateReqBody = require('../middlewares/validateReqBody');
 const validators = require('../utils/validators');
 
 router.post('/:id', loginRequired, hasWebhookPermission, validateFormOwner, validateReqBody(validators.webhook), controller.createWebhook);
-router.get('/:id/:webhookId', loginRequired, hasWebhookPermission, validateFormOwner, validateWebhookOwner, controller.getWebhook);
-router.put('/:id/:webhookId', loginRequired, hasWebhookPermission, validateFormOwner, validateWebhookOwner, validateReqBody(validators.webhook), controller.updateWebhook);
-router.delete('/:id/:webhookId', loginRequired, hasWebhookPermission, validateFormOwner, validateWebhookOwner, controller.deleteWebhook);
+router.get('/:id/', loginRequired, hasWebhookPermission, validateWebhookOwner, controller.getWebhook);
+router.post('/update/:id/', loginRequired, hasWebhookPermission, validateWebhookOwner, validateReqBody(validators.webhook), controller.updateWebhook);
+router.delete('/:id/', loginRequired, hasWebhookPermission, validateWebhookOwner, controller.deleteWebhook);
 
 module.exports = router;

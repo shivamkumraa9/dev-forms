@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Loader } from '../components/Loader';
+import http from '../../utils/http';
 
 export default function ToogleSubscription({ profileData, setProfileData }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,14 +11,15 @@ export default function ToogleSubscription({ profileData, setProfileData }) {
 
   function handleClick() {
     setIsLoading(true);
-    setTimeout(() => {
-      setProfileData({
-        ...profileData,
-        isCancelled: !profileData.isCancelled,
+    http.post('payments/toogle-subscription')
+      .then(() => {
+        setProfileData({
+          ...profileData,
+          isCancelled: !profileData.isCancelled,
+        });
+        setIsLoading(false);
+        closeBtn.current.click();
       });
-      setIsLoading(false);
-      closeBtn.current.click();
-    }, 1500);
   }
 
   return (

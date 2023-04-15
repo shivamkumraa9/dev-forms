@@ -2,10 +2,11 @@ import { useState } from 'react';
 import FormPageLayout from './layouts/FormPageLayout';
 import { handleChangeUtil, checkPasswords } from '../utils/form';
 import SubmitButton from './components/SubmitButton';
+import http from '../utils/http';
 
 export default function ChangePassword() {
   const [formState, setFormState] = useState({ status: '', message: '' });
-  const [formData, setFormData] = useState({ currentPassword: '', password: '', password1: '' });
+  const [formData, setFormData] = useState({ oldPassword: '', password: '', password1: '' });
   const handleChange = (event) => handleChangeUtil(event, formData, setFormData);
 
   function handleSubmit(event) {
@@ -15,9 +16,13 @@ export default function ChangePassword() {
     if (error) {
       setFormState({ status: 'error', message: error });
     } else {
-      setTimeout(() => {
-        setFormState({ status: 'success', message: 'Password has been set!' });
-      }, 1500);
+      http.post('profile/change-password', formData)
+        .then(() => {
+          setFormState({ status: 'success', message: 'Password has been set!' });
+        })
+        .catch((responseError) => {
+          setFormState({ status: 'error', message: responseError.response.data.error });
+        });
     }
   }
 
@@ -27,7 +32,7 @@ export default function ChangePassword() {
       <form onSubmit={handleSubmit} className="simple-form mt-2">
         <div className="mb-3">
           <label htmlFor="exampleInputPassword" className="form-label">Current Password</label>
-          <input name="currentPassword" required type="password" onChange={handleChange} className="form-control" id="exampleInputPassword" />
+          <input name="oldPassword" required type="password" onChange={handleChange} className="form-control" id="exampleInputPassword" />
         </div>
         <div className="mb-3">
           <label htmlFor="exampleInputPassword1" className="form-label">Password</label>

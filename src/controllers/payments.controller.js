@@ -12,7 +12,7 @@ async function webhookManager(subscription, shouldUpdate = true, transactionStat
   if (shouldUpdate) {
     await User.findByIdAndUpdate(user._id, {
       stripeSubscriptionId: subscription.id,
-      StripeNextDate: Math.floor(subscription.current_period_end * 1000),
+      nextPaymentDate: Math.floor(subscription.current_period_end * 1000),
       subscriptionStatus: subscription.status,
       isCancelled: subscription.cancel_at_period_end,
       plan: plan._id,
@@ -59,7 +59,6 @@ module.exports = {
       req.user.stripeSubscriptionId,
       { cancel_at_period_end: !req.user.isCancelled },
     );
-
     return res.json({ url: 'success' });
   },
 

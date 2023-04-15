@@ -40,6 +40,7 @@ export default function Navbar() {
                     <ul ref={dropdown}>
                       <li><NavLink to="/add-form">Add Form</NavLink></li>
                       <li><NavLink to="/settings">Payment & API</NavLink></li>
+                      <li><NavLink to="/change-password">Change Password</NavLink></li>
                       <li><NavLink to="/logout">Logout</NavLink></li>
                     </ul>
                   </li>

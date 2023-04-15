@@ -13,6 +13,7 @@ router.get('/:id', loginRequired, validateFormOwner, controller.getForm);
 router.put('/:id', loginRequired, validateFormOwner, validateReqBody(validators.updateForm), controller.updateForm);
 router.post('/:id/submit', controller.submit);
 router.get('/:id/submissions', loginRequired, validateFormOwner, controller.getFormSubmissions);
+router.post('/:id/submissions/download', loginRequired, validateFormOwner, controller.downloadSubmissions);
 router.delete('/:id', loginRequired, validateFormOwner, controller.deleteForm);
 router.delete('/submissions/:id', loginRequired, controller.deleteSubmission);
 

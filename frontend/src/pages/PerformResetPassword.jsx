@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import FormPageLayout from './layouts/FormPageLayout';
 import { handleChangeUtil, checkPasswords } from '../utils/form';
 import SubmitButton from './components/SubmitButton';
+import http from '../utils/http';
 
 export default function PerformResetPassword() {
+  const params = (new URL(document.location)).search;
+  const token = params.replace('?token=', '') || '';
   const [formState, setFormState] = useState({ status: '', message: '' });
-  const [formData, setFormData] = useState({ password: '', password1: '' });
+  const [formData, setFormData] = useState({ token, password: '', password1: '' });
   const handleChange = (event) => handleChangeUtil(event, formData, setFormData);
 
   function handleSubmit(event) {
@@ -16,9 +19,13 @@ export default function PerformResetPassword() {
     if (error) {
       setFormState({ status: 'error', message: error });
     } else {
-      setTimeout(() => {
-        setFormState({ status: 'success', message: 'Password has been set!' });
-      }, 1500);
+      http.post('auth/reset-password/perform', formData)
+        .then(() => {
+          setFormState({ status: 'success', message: 'Password has been set!' });
+        })
+        .catch((httpError) => {
+          setFormState({ status: 'error', message: httpError.response.data.error });
+        });
     }
   }
 

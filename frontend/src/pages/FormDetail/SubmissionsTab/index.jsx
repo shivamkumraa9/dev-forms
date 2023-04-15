@@ -8,12 +8,12 @@ export default function SubmissionTab({ submissions, formId }) {
   const [formSubmissions, setFormSubmissions] = useState(submissions);
 
   const tableRows = formSubmissions.map((item, index) => (
-    <SubmissionTableRow submission={item} index={index} />
+    <SubmissionTableRow submission={item} index={index} key={item._id} />
   ));
 
   const submissionModels = formSubmissions.map((item) => (
     <SubmissionModel
-      key={item.id}
+      key={item._id}
       submissionData={item}
       formSubmissions={formSubmissions}
       setFormSubmissions={setFormSubmissions}
@@ -24,7 +24,7 @@ export default function SubmissionTab({ submissions, formId }) {
     <>
       <div className="d-flex flex-row align-items-center justify-content-between mt-2 mb-2">
         <Refresh formId={formId} setFormSubmissions={setFormSubmissions} />
-        <Download link="https://google.com" />
+        { tableRows.length > 0 && <Download /> }
       </div>
 
       <table className="table table-hover">

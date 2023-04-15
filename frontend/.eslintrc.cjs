@@ -15,5 +15,6 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': 'off',
     'react/prop-types': 'off',
     'react-hooks/exhaustive-deps': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

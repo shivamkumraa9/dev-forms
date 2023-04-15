@@ -21,7 +21,7 @@ export default {
       element: <ResetPassword />,
     },
     {
-      path: 'reset-password/:id',
+      path: 'reset-password/perform',
       element: <PerformResetPassword />,
     },
   ],

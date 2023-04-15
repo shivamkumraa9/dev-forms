@@ -22,9 +22,12 @@ module.exports = {
   },
 
   async validateWebhookOwner(req, res, next) {
-    const webhook = await doesModelExists(Webhook, req.params.webhookId);
+    const webhook = await doesModelExists(Webhook, req.params.id);
     if (!webhook) return res.status(404).json({ msg: 'Webhook not found' });
-    if (!req.form._id.equals(webhook.form)) return res.status(401).json({ msg: 'You cannot access this webhook' });
+
+    const form = await Form.findById(webhook.form);
+    if (!form || !req.user._id.equals(form.user)) return res.status(401).json({ msg: 'You cannot access this webhook' });
+
     req.webhook = webhook;
     return next();
   },

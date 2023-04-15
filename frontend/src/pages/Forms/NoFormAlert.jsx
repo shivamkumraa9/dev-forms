@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 export default function NoFormsAlert() {
   return (
-    <div className="alert alert-warning" role="alert">
+    <div className="alert alert-info" role="alert">
       You have 0 forms.
-      <Link to="/create-new">Click here </Link>
+      <Link to="/add-form">Click here </Link>
       to create a new form
     </div>
   );

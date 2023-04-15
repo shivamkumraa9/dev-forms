@@ -1,14 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-export default function WebhookTab({ webhooks }) {
+export default function WebhookTab({ webhooks, plan }) {
+  const { id } = useParams();
+  if (!plan.allowWebhookIntegration) {
+    return (
+      <div className="alert alert-info" role="alert">
+        Please upgrade your plan to get access to webhooks.
+      </div>
+    );
+  }
   const tableRows = webhooks.map((item, index) => (
-    <tr key={item.id}>
+    <tr key={item._id}>
       <th scope="row">{index + 1}</th>
       <td>{ item.name }</td>
       <td>{ item.url }</td>
-      <td className="text-right">{ item.enabled ? 'Enabled' : 'Disabled' }</td>
+      <td className="text-right">{ item.isEnabled ? 'Enabled' : 'Disabled' }</td>
       <td>
-        <Link to={`/update-webhook/${item.id}`}>
+        <Link to={`/update-webhook/${item._id}`}>
           Edit
         </Link>
       </td>
@@ -17,7 +25,7 @@ export default function WebhookTab({ webhooks }) {
 
   return (
     <>
-      <Link to="/create-webhook" className="custom-button primary-button">
+      <Link to={`/create-webhook/${id}`} className="custom-button primary-button">
         <span>
           Create New Webhook&nbsp;
           <i className="fa-solid fa-circle-plus" />
@@ -34,7 +42,7 @@ export default function WebhookTab({ webhooks }) {
           </tr>
         </thead>
         <tbody>
-          { tableRows.length > 0 ? tableRows : <p className="mt-2 text-center">This form has 0 submissions</p> }
+          { tableRows.length > 0 ? tableRows : <p className="mt-2 text-center">This form has 0 webhooks</p> }
         </tbody>
       </table>
     </>

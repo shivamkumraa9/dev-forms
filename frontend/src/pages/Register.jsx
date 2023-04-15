@@ -3,6 +3,7 @@ import { useState } from 'react';
 import FormPageLayout from './layouts/FormPageLayout';
 import { handleChangeUtil, checkPasswords } from '../utils/form';
 import SubmitButton from './components/SubmitButton';
+import http from '../utils/http';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -17,9 +18,13 @@ export default function Register() {
     if (error) {
       setFormState({ status: 'error', message: error });
     } else {
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500);
+      http.post('auth/register', formData)
+        .then(() => {
+          navigate('/login');
+        })
+        .catch((requestError) => {
+          setFormState({ status: 'error', message: requestError.response.data.error });
+        });
     }
   }
 

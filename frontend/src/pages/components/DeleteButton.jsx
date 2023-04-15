@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import http from '../../utils/http';
 
 export default function DeleteButton(props) {
   const {
-    modalId, heading, text, submitUrl,
+    modalId, heading, text, submitUrl, redirectUrl,
   } = props;
 
   const navigate = useNavigate();
@@ -10,10 +11,11 @@ export default function DeleteButton(props) {
   function handleDelete(event) {
     const { target } = event;
     target.disabled = true;
-    setTimeout(() => {
-      target.previousElementSibling.click();
-      navigate(`/forms?url=${submitUrl}`);
-    }, 2000);
+    http.delete(submitUrl)
+      .then(() => {
+        target.previousElementSibling.click();
+        navigate(redirectUrl || '/forms');
+      });
   }
 
   return (
