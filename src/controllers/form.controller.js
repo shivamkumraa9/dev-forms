@@ -119,14 +119,6 @@ module.exports = {
     return res.json(await Submission.find({ form: req.form._id }));
   },
 
-  async downloadSubmissions(req, res) {
-    const submissions = await Submission.find({ form: req.form._id }, { data: 1, _id: 0 });
-    const submissionsData = submissions.map((item) => item.data);
-    res.setHeader('Content-type', 'application/octet-stream');
-    res.setHeader('Content-disposition', `attachment;filename=submissions_${req.form._id}.json`);
-    return res.send(JSON.stringify(submissionsData, null, 4));
-  },
-
   async deleteForm(req, res) {
     await Webhook.deleteMany({ form: req.form._id });
     await Submission.deleteMany({ form: req.form._id });

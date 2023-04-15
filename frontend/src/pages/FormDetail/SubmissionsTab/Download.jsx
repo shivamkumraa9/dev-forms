@@ -7,20 +7,25 @@ export default function Download() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
+  function downloadJsonFile(data) {
+    const downloadUrl = window.URL.createObjectURL(
+      new Blob([JSON.stringify(data, null, 4)]),
+    );
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', 'file.json');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
   function handleClick() {
     setIsLoading(true);
-    http.post(`forms/${id}/submissions/download`)
+    http.get(`forms/${id}/submissions`)
       .then((response) => {
         setIsLoading(false);
-        const downloadUrl = window.URL.createObjectURL(
-          new Blob([JSON.stringify(response.data, null, 4)]),
-        );
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.setAttribute('download', 'file.json');
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        const submissionsData = response.data.map((item) => item.data);
+        downloadJsonFile(submissionsData);
       });
   }
 

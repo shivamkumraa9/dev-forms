@@ -37,9 +37,10 @@ export default function SubmissionTab({ submissions, formId }) {
           </tr>
         </thead>
         <tbody>
-          { tableRows.length > 0 ? tableRows : <p className="mt-2 text-center">This form has 0 submissions</p> }
+          {tableRows}
         </tbody>
       </table>
+      {tableRows.length < 1 && <p>This form has 0 submissions</p>}
       { submissionModels }
     </>
   );

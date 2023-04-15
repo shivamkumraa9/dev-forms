@@ -42,9 +42,10 @@ export default function WebhookTab({ webhooks, plan }) {
           </tr>
         </thead>
         <tbody>
-          { tableRows.length > 0 ? tableRows : <p className="mt-2 text-center">This form has 0 webhooks</p> }
+          {tableRows}
         </tbody>
       </table>
+      {tableRows.length < 1 && <p>This form has 0 webhooks</p>}
     </>
   );
 }

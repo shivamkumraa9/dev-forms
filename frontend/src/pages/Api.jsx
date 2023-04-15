@@ -8,96 +8,79 @@ export default function Api() {
       <h3 className="fw-bold">INTRODUCTION</h3>
       <hr />
       <p>
-        The DevForm API is available to all users But in order to use that
-        you need your api keys which can be find on the dashboard page.
+        The DevForms API is only available to users with Business plan. To use the api
+        you need your api keys which can be found on the payment & api page.
       </p>
-      <h3 className="mt-5 fw-bold">/api/forms/v1</h3>
+      <h3 className="mt-5 fw-bold">api/public/v1/forms</h3>
       <hr />
       <h5 className="fw-bold">Method : GET</h5>
       <p>Get a list of all forms in your account.</p>
       <h6 className="fw-bold">Example Request:</h6>
-      <pre className=" language-markup"><code>curl -H &quot;token: efhci...04fj4&quot; &quot;https://devform.herokuapp.com/api/forms/v1&quot;</code></pre>
+      <pre className=" language-markup"><code>curl -H &quot;apikey: efhci...04fj4&quot; &quot;https://devforms.herokuapp.com/api/public/v1/forms&quot;</code></pre>
       <h6 className="fw-bold">Example Response:</h6>
       <pre className=" language-markup">
         <code>
-          {`{
-   "data":[
-      {
-         "id":"606951fe45c730001511fbf8",
-         "name":"testing",
-         "submissions":3
-      },
-      {
-         "id":"6069556745c730001511fbfc",
-         "name":"Test Form2",
-         "submissions":0
-      }
-   ]
-}`}
+          {`[
+    {
+        "_id": "643ac276e9320647d27950dd",
+        "user": "6437a4497ba5c276c59d6182",
+        "name": "Test Form 1",
+        "description": "This is a test form",
+        "successRedirectUrl": "",
+        "allowNewSubmissions": true,
+        "sendEmailNotifications": true,
+        "createdAt": "2023-04-15T15:27:50.792Z",
+        "__v": 0,
+        "totalSubmissions": 0
+    },
+    {
+        "_id": "643ac28be9320647d27950f1",
+        "user": "6437a4497ba5c276c59d6182",
+        "name": "Test Form 2",
+        "description": "This is a test form 2",
+        "successRedirectUrl": "https://google.com/",
+        "allowNewSubmissions": true,
+        "sendEmailNotifications": true,
+        "createdAt": "2023-04-15T15:28:11.817Z",
+        "__v": 0,
+        "totalSubmissions": 2
+    }
+]`}
         </code>
       </pre>
-      <h3 className="mt-5 fw-bold">/api/forms/v1/&lt;id&gt;</h3>
-      <hr />
-      <h5 className="fw-bold">Method : GET</h5>
-      <p>Get general information about any specific form from your account.</p>
-      <h6 className="fw-bold">Example Request:</h6>
-      <pre className=" language-markup"><code>curl -H &quot;token: efhci...04fj4&quot; &quot;https://devform.herokuapp.com/api/forms/v1/77c42f0f-...&quot;</code></pre>
-      <h6 className="fw-bold">Example Response:</h6>
-      <pre className=" language-markup">
-        <code>
-          {`{
-   "name":"testing",
-   "id":"606951fe45c730001511fbf8",
-   "success":"https://youtube.com",
-   "whitelist":[
-
-   ],
-   "submissions":3
-
-}`}
-        </code>
-      </pre>
-      <h3 className="mt-5 fw-bold">/api/forms/v1/&lt;id&gt;/submissions</h3>
+      <h3 className="mt-5 fw-bold">api/public/v1/forms/&lt;form-id&gt;/submissions</h3>
       <hr />
       <h5 className="fw-bold">Method : GET</h5>
       <p>
-        Get form submissions data of any of your form. You can also use
-        limit(default is 10) and page(default is 0) options to set number
-        of results per page and Which page of results respectively.
+        Get all the submissions of a form.
       </p>
       <h6 className="fw-bold">Example Request:</h6>
-      <pre className=" language-markup"><code>curl -H &quot;token: efhci...04fj4&quot; &quot;https://devform.herokuapp.com/api/forms/v1/77c42f0f-.../submissions?page=0&limit=10&quot;</code></pre>
+      <pre className=" language-markup"><code>curl -H &quot;apikey: efhci...04fj4&quot; &quot;https://devforms.herokuapp.com/api/public/v1/forms/77c42f0f-.../submissions</code></pre>
       <h6 className="fw-bold">Example Response:</h6>
       <pre className=" language-markup">
         <code>
-          {`{
-   "data":[
-      {
-         "id":"6069542845c730001511fbfa",
-         "data":{
-            "name":"test",
-            "email":"testing@gmail.com"
-         },
-         "time":"2021-04-04T05:52:40.929Z"
-      },
-      {
-         "id":"6069549845c730001511fbfb",
-         "data":{
-            "name":"tester",
-            "email":"testing@gmail.com"
-         },
-         "time":"2021-04-04T05:54:32.742Z"
-      },
-      {
-         "id":"606955b645c730001511fbfd",
-         "data":{
-            "name":"Tet",
-            "email":"test@gmail.com"
-         },
-         "time":"2021-04-04T05:59:18.264Z"
-      }
-   ]
-}`}
+          {`[
+    {
+        "_id": "643ac2b8e9320647d2795105",
+        "form": "643ac28be9320647d27950f1",
+        "data": {
+            "name": "Test user",
+            "email": "testuser@gmail.com"
+        },
+        "createdAt": "2023-04-15T15:28:56.842Z",
+        "__v": 0
+    },
+    {
+        "_id": "643ac2c5e9320647d279510c",
+        "form": "643ac28be9320647d27950f1",
+        "data": {
+            "name": "Test user1",
+            "email": "testuser1@gmail.com"
+        },
+        "createdAt": "2023-04-15T15:29:09.822Z",
+        "__v": 0
+    }
+]`}
         </code>
       </pre>
     </section>

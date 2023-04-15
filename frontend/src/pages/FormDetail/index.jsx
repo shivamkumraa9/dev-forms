@@ -10,16 +10,7 @@ import http from '../../utils/http';
 export default function FormDetail() {
   const { id } = useParams();
   const [formState, setFormState] = useState('loading');
-  const [formDetails, setFormDetails] = useState({
-    name: '',
-    description: '',
-    successRedirect: '',
-    enabled: true,
-    isEmailNotiEnabled: false,
-    userPlan: '',
-    submissions: [],
-    webhooks: [],
-  });
+  const [formDetails, setFormDetails] = useState(null);
 
   useEffect(() => {
     http.get(`forms/${id}`)

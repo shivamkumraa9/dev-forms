@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Loader, SectionLoader } from './components/Loader';
-import { useAuthToken } from '../utils/authContext';
-import http from '../utils/http';
+import { SectionLoader } from '../components/Loader';
+import { useAuthToken } from '../../utils/authContext';
+import http from '../../utils/http';
+import ButtonRenderer from './BuyButton';
 
 export default function Pricing() {
   const token = useAuthToken();
@@ -52,7 +52,7 @@ export default function Pricing() {
                 <li className="na">API Access</li>
               </ul>
               <div className="btn-wrap">
-                <SubscriptionButton currentPlan={currentPlan} planName="free" />
+                <ButtonRenderer currentPlan={currentPlan} planName="free" />
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ export default function Pricing() {
                 <li className="na">API Access</li>
               </ul>
               <div className="btn-wrap">
-                <SubscriptionButton loaderColor="#fff" currentPlan={currentPlan} planName="developer" />
+                <ButtonRenderer loaderColor="#fff" currentPlan={currentPlan} planName="developer" />
               </div>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function Pricing() {
                 <li>API Access</li>
               </ul>
               <div className="btn-wrap">
-                <SubscriptionButton currentPlan={currentPlan} planName="business" />
+                <ButtonRenderer currentPlan={currentPlan} planName="business" />
               </div>
             </div>
           </div>
@@ -106,48 +106,5 @@ export default function Pricing() {
         </div>
       </div>
     </section>
-  );
-}
-
-function SubscriptionButton(props) {
-  const navigate = useNavigate();
-  const { planName, currentPlan, loaderColor } = props;
-  const [isLoading, setIsLoading] = useState(false);
-  const isCurrentPlanSame = planName === currentPlan;
-  const userHasSubscribed = currentPlan !== 'free';
-
-  function handleClick() {
-    if (currentPlan) {
-      if (!isCurrentPlanSame) {
-        setIsLoading(true);
-        if (userHasSubscribed) {
-          http.post(`payments/change-plan/${planName}`)
-            .then(() => {
-              setTimeout(() => (navigate('/settings')), 5000);
-            });
-        } else {
-          http.post(`payments/subscribe/${planName}`)
-            .then((response) => {
-              window.location.href = response.data.url;
-            });
-        }
-      }
-    } else {
-      navigate('/login');
-    }
-  }
-  if (isLoading) {
-    return <Loader color={loaderColor} />;
-  }
-
-  if (userHasSubscribed && planName === 'free') {
-    return (
-      <span />
-    );
-  }
-  return (
-    <span style={{ cursor: !isCurrentPlanSame ? 'pointer' : '' }} className="btn-buy" aria-hidden="true" onClick={handleClick}>
-      {isCurrentPlanSame ? 'Current Plan' : 'Buy'}
-    </span>
   );
 }
