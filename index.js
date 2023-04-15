@@ -22,8 +22,7 @@ app.use(express.json({
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
 app.use('/api/auth', require('./src/routes/auth.routes'));
 app.use('/api/profile', require('./src/routes/profile.routes'));
