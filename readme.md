@@ -7,15 +7,25 @@ DevForms is a web application that enables you to accept form submissions withou
 Backend ENV Variables -
 
 STRIPE_PUBLIC_KEY
+
 STRIPE_SECRET_KEY
+
 DB_URI
+
 MAILJET_API_PUBLIC_KEY
+
 MAILJET_API_SECRET_KEY
+
 EMAIL_FROM
+
 EMAIL_FROM_NAME
+
 JWT_PASSWORD_SECRET_KEY
+
 FRONTEND_URL
+
 WEBHOOK_SECRET: Stripe Webhook Secret
+
 PORT
 
 
