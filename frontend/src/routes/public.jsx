@@ -2,6 +2,7 @@ import Home from '../pages/Home';
 import Api from '../pages/Api';
 import Pricing from '../pages/Pricing';
 import Contact from '../pages/Contact';
+import Submission from '../pages/Submission';
 
 export default [
   {
@@ -19,5 +20,9 @@ export default [
   {
     path: 'pricing',
     element: <Pricing />,
+  },
+  {
+    path: 'submission',
+    element: <Submission />,
   },
 ];

@@ -109,10 +109,8 @@ module.exports = {
       triggerWebhook(webhooks, submission.data);
     }
 
-    if (form.successRedirectUrlUrl) {
-      return res.redirect(form.successRedirectUrlUrl);
-    }
-    return res.json(submission);
+    return res.redirect(form.successRedirectUrl || '/submission');
+
   },
 
   async getFormSubmissions(req, res) {

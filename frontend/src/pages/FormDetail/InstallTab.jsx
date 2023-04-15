@@ -1,7 +1,7 @@
 import CopyToClipboard from '../components/CopyToClipboard';
 
 export default function InstallTab({ formId }) {
-  const url = `https://devforms.shivamkumraa.com/api/forms/submit/${formId}`;
+  const url = `${window.location.origin}/api/forms/${formId}/submit`;
   const formTag = `<form method="post" action="${url}"></form>`;
 
   return (
