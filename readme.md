@@ -13,9 +13,10 @@ Backend ENV Variables -
 - EMAIL_FROM
 - EMAIL_FROM_NAME
 - JWT_PASSWORD_SECRET_KEY
+- JWT_SECRET_KEY
 - FRONTEND_URL
 - WEBHOOK_SECRET: Stripe Webhook Secret
 - PORT
 
 
-Live Demo - https://devforms.shivamkumraa.com
+Live Demo - https://dev-forms.onrender.com/
